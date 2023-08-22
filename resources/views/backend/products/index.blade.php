@@ -82,9 +82,14 @@
                                 placeholder="Enter product Name">
                         </div>
                         <div class="form-group">
+                            <label for="price">product price</label>
+                            <input type="number" class="form-control" id="price" name="price"
+                                placeholder="Enter product price">
+                        </div>
+                        <div class="form-group">
                             <label for="image">product cover Image</label>
                             <input type="file" class="form-control " id="image" name="image">
-                     
+
 
                         </div>
 
@@ -92,10 +97,21 @@
                             <label for="gallery">Product gallery Images </label>
                             <input type="file" class="form-control" id="gallery" name="gallery[]" multiple>
                         </div>
+                        <div class="form-group">
+                            <label for="tags">Tags</label>
+                            <div class="tags-default">
+                                <div class="bootstrap-tagsinput">
+                                    <input type="text" id="tags" @isset($tags)
+                                    value="{{$tags->title }}"
+                                    @endisset  data-role="tagsinput"
+                                        placeholder="add tags" size="8" style="display: none;" name="tag">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="category_name">Category Name</label>
-                            <select class="form-control select2" style="width: 100%;" name="category_id" id="category_name">
+                            <select class="form-control " style="width: 100%;" name="category_id" id="category_name">
                                 <option selected="selected">Please Select</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>

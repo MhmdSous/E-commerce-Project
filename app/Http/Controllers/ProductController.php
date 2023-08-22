@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductGallary;
+use App\Models\Tag;
 use App\Traits\Image;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,17 +17,19 @@ use Yajra\DataTables\Facades\DataTables;
 class ProductController extends Controller
 {
     use Image;
-// public function __construct()
-// {
-// $this->middleware('auth:admin');
-// }
+    // public function __construct()
+    // {
+    // $this->middleware('auth:admin');
+    // }
     public function index()
     {
         $categories = Category::latest()->get();
         $products = Product::all();
+        $tags=Tag::first();
         return view('backend.products.index', [
             'products' => $products,
             'categories' => $categories,
+            'tags'=>$tags
         ]);
     }
 
@@ -49,15 +53,18 @@ class ProductController extends Controller
                 ->addColumn('category_name', function ($product) {
                     return $product->category->name;
                 })
+                ->addColumn('price', function ($product) {
+                    return $product->price;
+                })
                 ->addColumn('image', function ($product) {
 
                     return $product->image;
                 })
                 ->addColumn('actions', function ($row) {
                     $actionBtn = '<div class="d-flex gap-1">' .
-                        '<a data-id="' . $row->id . '" href="javascript:void(0)" class="edit btn btn-success btn-sm mr-2">Edit</a>' .
-                        '<a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm mr-2">Delete</a>' .
-                        // '<a href="javascript:void(0)" data-id="' . $row->id . '" class="gallery btn btn-success btn-sm">Add</a>' .
+                        '<a data-id="' . $row->id . '" href="javascript:void(0)" class="edit btn btn-success btn-sm mr-1">Edit</a>' .
+                        '<a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm mr-1">Delete</a>' .
+                        '<a href="javascript:void(0)" data-id="' . $row->id . '" class="addCart btn btn-success btn-sm mr-1">Add</a>' .
                         '<a href="' . route("products.gallery.index", $row->id) . '" class="show btn btn-info btn-sm">Show</a>' .
                         '</div>';
                     return $actionBtn;
@@ -71,46 +78,50 @@ class ProductController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
 
         $request->validate([
             'name' => ['required', Rule::unique('products')->ignore($request->id)],
-            'image' => ['nullable'],
-            'gallery' => ['required', 'array']
+            'price' => 'required|numeric',
+
         ]);
 
         DB::beginTransaction();
-        try{
+        try {
 
             if (!is_null($request->id)) {
                 $product = Product::findOrFail($request->id);
                 $product->name = $request->input('name');
+                $product->price = $request->input('price');
                 $product->category_id = $request->input('category_id');
 
                 $product->image = $this->updateImage($request, $product, 'image', 'products');
                 $product->save();
                 $productGallery = new ProductGallary();
 
-                $paths  = $this->updateImage($request, $productGallery, 'gallery', 'product/gallery','public', true);
-                foreach($paths as $path) {
+                $paths  = $this->updateImage($request, $productGallery, 'gallery', 'product/gallery', 'public', true);
+                foreach ($paths as $path) {
 
                     $productGallery->product_id = $product->id;
                     $productGallery->image = $path;
                     $productGallery->save();
                 }
-
+                $tag = new Tag();
+                $tag->title = $request->input('tag');
+                $tag->save();
 
                 $msg = 'updated';
             } else {
                 $product = new Product();
                 $product->name = $request->input('name');
                 $product->category_id = $request->input('category_id');
+                $product->price = $request->input('price');
 
                 $product->image = $this->storeImage($request, 'image', 'products');
                 $product->save();
                 $product->refresh();
-                $pathes = $this->storeImage($request, 'gallery','product/gallery','public',  true);
+                $pathes = $this->storeImage($request, 'gallery', 'product/gallery', 'public',  true);
 
                 foreach ($pathes as $path) {
                     $productGallery = new ProductGallary();
@@ -118,10 +129,14 @@ class ProductController extends Controller
                     $productGallery->image = $path;
                     $productGallery->save();
                 }
+
+                $tag = new Tag();
+                $tag->title = $request->input('tag');
+                $tag->save();
                 $msg = 'created';
             }
             DB::commit();
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
 
             DB::rollBack();
             return $e->getMessage();

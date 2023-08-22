@@ -26,14 +26,14 @@ class GalleryController extends Controller
         if (!is_null($request->id)) {
             $gallery = ProductGallary::findOrFail($request->id);
             $gallery->product_id = $request->input('product_id');
-            $gallery->image = $this->updateImage($request,$gallery,'image' , 'product/gallery',true);
+            $gallery->image = $this->updateImage($request,$gallery,'image' , 'product/gallery');
             $gallery->save();
             $msg = 'updated';
 
         } else {
             $gallery = new ProductGallary();
             $gallery->product_id = $request->input('product_id');
-            $gallery->image = $this->storeImage($request, 'image', 'product/gallery',true);
+            $gallery->image = $this->storeImage($request, 'image', 'product/gallery');
             $gallery->save();
             $msg = 'created';
 

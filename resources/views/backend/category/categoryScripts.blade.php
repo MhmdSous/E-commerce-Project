@@ -1,4 +1,3 @@
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -19,6 +18,16 @@
                 },
                 {
                     data: 'name'
+                },
+                {
+                    data: 'image',
+
+                    name: 'image',
+                    render: function(data, type, full, meta) {
+                        return '<img src="' + "{{ asset('storage') }}" + '/' + data +
+    '" width="100" height="100" />';
+
+                        }
                 },
                 {
                     data: 'actions'
@@ -65,6 +74,7 @@
                     $('#name').val(res.data.name);
 
 
+
                 },
                 error: function(error) {
                     $("#saveCategoryButton").html('update');
@@ -100,9 +110,10 @@
 
         $('body').on('click', '#saveCategoryButton', function(event) {
 
-            var id = $("#id").val();
-            var name = $("#name").val();
-
+            // var id = $("#id").val();
+            // var name = $("#name").val();
+            // var image = $("#image").val();
+            var formData = new FormData($('#createCategoryForm')[0]);
             $("#saveCategoryButton").html('Please Wait...');
             $("#sasaveCategoryButtonve").attr("disabled", true);
 
@@ -110,11 +121,9 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('categories.store') }}",
-                data: {
-                    id: id,
-                    name: name,
-
-                },
+                data: formData,
+                contentType: false,
+                    processData: false,
                 dataType: 'json',
                 success: function(res) {
 

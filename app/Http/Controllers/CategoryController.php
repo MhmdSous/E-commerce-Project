@@ -7,15 +7,12 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Exports\CategoryExport;
 use App\Exports\CategoryReportExport;
+use App\Traits\Image;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
 {
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:admin');
-    // }
+    use Image;
     public function exportCategoryExcel()
     {
         return Excel::download(new CategoryReportExport(), 'categories.xlsx');
@@ -24,32 +21,37 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         return view('backend.category.index', [
-            'categories' => $categories
+           'categories'=>$categories
         ]);
     }
 
     public function getAllCategories()
     {
-        if (\request()->ajax()) {
-            $categories = Category::latest()->get();
-            return DataTables::of($categories)
-                ->addIndexColumn()
-                ->addColumn('ame', function ($categories) {
-                    return $categories->name;
-                })
-                ->addColumn('actions', function ($row) {
+        if(\request()->ajax()){
+        $categories = Category::latest()->get();
+        return DataTables::of($categories)
+        ->addIndexColumn()
+        ->addColumn('name', function ($categories) {
+            return $categories->name;
+         }) ->addColumn('image', function ($product) {
 
-                    $actionBtn = '<a  data-id="' . $row->id . '"  href="javascript:void(0)" class="edit btn btn-success btn-sm mr-2" >Edit</a>' .
-                        '<a href="javascript:void(0)" onclick="return confirm(\'Are you sure you want to delete this item?\')" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm">Delete</a>';
-                    return $actionBtn;
-                })
-                ->rawColumns(['actions'])
-                ->make(true);
+                return $product->image;
+            })
+        ->addColumn('actions', function($row){
+
+            $actionBtn = '<a  data-id="'. $row->id .'"  href="javascript:void(0)" class="edit btn btn-success btn-sm mr-2" >Edit</a>' .
+             '<a href="javascript:void(0)" onclick="return confirm(\'Are you sure you want to delete this item?\')" data-id="'. $row->id .'" class="delete btn btn-danger btn-sm">Delete</a>';
+return $actionBtn;
+
+        })
+        ->rawColumns(['actions'])
+        ->make(true);
         }
+
     }
     public function create()
     {
-        //
+    //
     }
 
     public function store(Request $request)
@@ -58,19 +60,23 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|unique:categories'
         ]);
-        if (!is_null($request->id)) {
+        if( !is_null($request->id) ){
             $category = Category::findorfail($request->id);
-            $category =   $category->update($request->all());
+            $category->image = $this->updateImage($request, $category, 'image', 'categries');
             $msg = 'updated';
-        } else {
+        }else{
 
-            $category =   Category::create($request->all());
+            $category = new Category();
+            $category->image = $this->storeImage($request,'image', 'categries');
             $msg = 'created';
         }
 
+        $category->name = $request->name;
+        $category->save();
+
         return response()->json([
-            'message' => "Category $msg successfully.",
-            'data' =>  $category
+            'message'=>"Category $msg successfully.",
+            'data'=>  $category
         ]);
     }
 
@@ -98,6 +104,8 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return response()->json(['message' => 'Category deleted successfully.']);
+        return response()->json([ 'message'=>'Category deleted successfully.']);
     }
 }
+
+

@@ -51,9 +51,10 @@
     <script src="{{ asset('backend/js/vendors.min.js') }}"></script>
     <script src="{{ asset('../assets/icons/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('../assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
+    <script src="{{ asset('../assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
     <script src="{{ asset('../assets/vendor_components/easypiechart/dist/jquery.easypiechart.js') }}"></script>
-    <script src="{{ asset('../assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
-
+    <script src="{{ asset('../assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js') }}"></script>
+	<script src="{{ asset('../assets/vendor_components/select2/dist/js/select2.full.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
@@ -64,8 +65,10 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
 
     <!-- Sunny Admin App -->
-    <script src="{{ asset('backend/js/template.js') }}"></script>
+
     <script src="{{ asset('backend/js/pages/dashboard.js') }}"></script>
+
+    <script src="{{ asset('backend/js/template.js') }}"></script>
 
 
 

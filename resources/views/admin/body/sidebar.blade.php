@@ -47,6 +47,7 @@
             </a>
             <ul class="treeview-menu">
               <li><a href="{{ route('products.index') }}"><i class="ti-more"></i>View Products</a></li>
+              <li><a href="{{ route('cart.view') }}"><i class="ti-more"></i>View Cart</a></li>
             </ul>
           </li>
 
