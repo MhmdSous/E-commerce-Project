@@ -25,9 +25,9 @@
                     name: 'image',
                     render: function(data, type, full, meta) {
                         return '<img src="' + "{{ asset('storage') }}" + '/' + data +
-    '" width="100" height="100" />';
+                            '" width="100" height="100" />';
 
-                        }
+                    }
                 },
                 {
                     data: 'actions'
@@ -56,11 +56,11 @@
             $('#saveCategoryButton').html("update");
             $('#categoryModal').modal('show');
             var id = $(this).data('id');
-
+            var _url = $(this).data('url');
             // ajax
             $.ajax({
                 type: "get",
-                url: "{{ url('categories/') }}" + '/' + id + '/edit',
+                url: _url,
                 data: {
                     id: id
                 },
@@ -88,12 +88,12 @@
 
 
             var id = $(this).data('id');
-
+            var _url = $(this).data('url');
 
             // ajax
             $.ajax({
                 type: "POST",
-                url: "{{ url('categories') }}" + '/' + id,
+                url: _url,
                 data: {
                     id: id
                 },
@@ -123,7 +123,7 @@
                 url: "{{ route('categories.store') }}",
                 data: formData,
                 contentType: false,
-                    processData: false,
+                processData: false,
                 dataType: 'json',
                 success: function(res) {
 

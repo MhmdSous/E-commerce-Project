@@ -8,8 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected  $fillable=['customer_name','total_price','order_number'];
-     public function orderItems(){
-        return $this->hasMany(OrderItem::class,'order_id');
-     }
+
+    protected $fillable = [
+        'order_number', 'user_id', 'status', 'grand_total', 'item_count', 'payment_status', 'payment_method',
+        'first_name', 'last_name', 'address', 'city', 'country', 'post_code', 'phone_number', 'notes'
+    ];
+    static function booted()
+    {
+        static::creating(function ($order) {
+            $order->order_number = uniqid('OrderNumber-');
+            $order->user_id = auth()->user()->id;
+        });
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

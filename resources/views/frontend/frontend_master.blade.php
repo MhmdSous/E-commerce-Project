@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/images/icon.png">
+    <link rel="icon" type="image/x-icon" href="{{ asset('frontend/images/icon.png') }}">
 
 
     <title>@yield('title')</title>
@@ -20,6 +20,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Edu+SA+Beginner:wght@400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800&family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,700;1,200;1,300;1,400;1,600&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
+        @yield('styles')
+
 </head>
 
 <body>
@@ -29,10 +31,10 @@
         @include('frontend.layouts.nav')
     </nav>
     <!-- End Navbar -->
-
+<div class="container">
     @yield('content')
-
-
+</div>
+    <button onclick="topFunction()" title="Go To Up" id="mybtn"><i class="fa-solid fa-arrow-up"></i> Top</button>
     <!-- start footer -->
     <footer class="bg-dark py-5" id="footer">
         @include('frontend.layouts.footer')
@@ -52,6 +54,7 @@
     <script>
         $(document).on('click', '.addCart', function() {
             var product_id = $(this).data('id');
+            var quantity = $(this).closest('.product').find('.input-qun').val();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -62,12 +65,41 @@
                 type: "POST",
                 data: {
                     product_id: product_id,
+                    quantity: quantity ? quantity : 1
 
                 },
                 success: function(res) {
-
                     toastr.success(res.message)
-                    // product_tbl.draw();
+                    // reload the div
+                    $('#cartCount').load(location.href + ' #cartCount');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    toastr.error('An error occurred while adding the product.');
+                }
+
+            })
+
+        });
+    </script>
+    <script>
+        $(document).on('click', '.addFav', function() {
+            var id = $(this).data('id');
+            var user_id = $(this).data('user_id');
+            $.ajax({
+                url: "{{ url('/add-to-favorite/') }}" + '/' + id,
+                type: "GET",
+                data: {
+                    product_id: id,
+                    user_id: user_id
+
+                },
+                success: function(res) {
+                    toastr.success(res.message)
+                    // reload the div
+                    $('#cartCount').load(location.href + ' #cartCount');
+
                 },
                 error: function(xhr, status, error) {
                     console.log(xhr.responseText);

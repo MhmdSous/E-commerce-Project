@@ -11,15 +11,15 @@
         <!-- <span class="text-uppercase fw-lighter ms-2">Attire</span>  -->
     </a>
 
-    <div class="order-lg-2">
+    <div class="order-lg-2" id="cartCount">
         <a href="{{ route('cart.view') }}"  class="btn position-relative" >
             <i class="fa fa-shopping-cart icon-hover"></i>
             <span class="position-absolute top-0 Start-100 translate-middle badge bg-primary">{{ $products->count() }}</span>
         </a>
-        <button type="button" class="btn position-relative">
+        <a href="{{ route('favorite.view') }}" class="btn position-relative">
             <i class="fa-solid fa-heart icon-hover"></i>
             <span class="position-absolute top-0 Start-100 translate-middle badge bg-primary">{{ $favorites->count() }}</span>
-        </button>
+        </a>
     </div>
 
     <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#nevMenu">
@@ -42,6 +42,9 @@
             </li>
             <li class="nav-item px-2  py-2 text-dark  border-0"><a href="{{ route('contact_us') }}"
                     class="nav-link fw-bold ">Contact Us</a>
+            </li>
+            <li class="nav-item px-2  py-2 text-dark  border-0"><a href="{{ route('login') }}"
+                    class="nav-link fw-bold ">Login</a>
             </li>
         </ul>
     </div>

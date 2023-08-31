@@ -17,19 +17,18 @@ use Yajra\DataTables\Facades\DataTables;
 class ProductController extends Controller
 {
     use Image;
-    // public function __construct()
-    // {
-    // $this->middleware('auth:admin');
-    // }
+
     public function index()
     {
-        $categories = Category::latest()->get();
-        $products = Product::all();
-        $tags=Tag::first();
+
+        $products = Product::with(['category','tags'])->latest()->get();
+        $categories = Category::all();
+
+
         return view('backend.products.index', [
             'products' => $products,
-            'categories' => $categories,
-            'tags'=>$tags
+            'categories' => $categories
+
         ]);
     }
 
@@ -63,7 +62,7 @@ class ProductController extends Controller
                 ->addColumn('actions', function ($row) {
                     $actionBtn = '<div class="d-flex gap-1">' .
                         '<a data-id="' . $row->id . '" href="javascript:void(0)" class="edit btn btn-success btn-sm mr-1">Edit</a>' .
-                        '<a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm mr-1">Delete</a>' .
+                        '<a href="javascript:void(0)" data-id="' . $row->id . '" data-url="'.route('products.destroy',$row->id).'" class="delete btn btn-danger btn-sm mr-1">Delete</a>' .
                         '<a href="javascript:void(0)" data-id="' . $row->id . '" class="addCart btn btn-success btn-sm mr-1">Add</a>' .
                         '<a href="' . route("products.gallery.index", $row->id) . '" class="show btn btn-info btn-sm">Show</a>' .
                         '</div>';
@@ -81,9 +80,10 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
 
+
         $request->validate([
             'name' => ['required', Rule::unique('products')->ignore($request->id)],
-            'price' => 'required|numeric',
+
 
         ]);
 
@@ -110,6 +110,7 @@ class ProductController extends Controller
                 $tag = new Tag();
                 $tag->title = $request->input('tag');
                 $tag->save();
+                $product->tags()->sync($tag->id);
 
                 $msg = 'updated';
             } else {
@@ -133,6 +134,7 @@ class ProductController extends Controller
                 $tag = new Tag();
                 $tag->title = $request->input('tag');
                 $tag->save();
+                $product->tags()->sync($tag->id);
                 $msg = 'created';
             }
             DB::commit();

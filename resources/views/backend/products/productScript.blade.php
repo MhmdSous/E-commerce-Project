@@ -79,7 +79,7 @@
                 // ajax
                 $.ajax({
                     type: "get",
-                    url: "{{ url('products/') }}" + '/' + id + '/edit',
+                    url: "{{ url('admin/products/') }}" + '/' + id + '/edit',
                     data: {
                         id: id
                     },
@@ -111,13 +111,14 @@
 
 
                 var id = $(this).data('id');
-
+                let _url =  $(this).data('url');
 
                 // ajax
                 if (confirm('Are you sure you want to delete this item?')) {
+
                     $.ajax({
                         type: "POST",
-                        url: "{{ url('products') }}" + '/' + id,
+                        url: _url,
                         data: {
                             id: id
                         },
@@ -231,7 +232,7 @@
 
 
 
-         
+
         });
 
         //     new Dropzone("#image", {

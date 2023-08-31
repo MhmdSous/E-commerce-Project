@@ -42,6 +42,7 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="waves-effect waves-light rounded dropdown-toggle" data-toggle="dropdown"
                         title="Notifications">
+                       
                         <i class="ti-bell"></i>
                     </a>
                     <ul class="dropdown-menu animated bounceIn">

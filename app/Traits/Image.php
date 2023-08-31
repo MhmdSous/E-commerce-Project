@@ -39,6 +39,7 @@ trait Image
             foreach ($files as $file) {
                 $new_path = $file->store($place, $disk);
                 $new_paths[] = $new_path;
+                $this->deleteImage($object->{$image_name}, $disk);
             }
 
         } else{

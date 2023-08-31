@@ -4,7 +4,12 @@ E-commerce Website | Home Page
 @endsection
 @section('content')
 
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session('success') }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <!-- Start Header -->
     <header id="header" class="vh-100 carousel slide" data-bs-ride="carousel" style="padding-top: 104px;">
@@ -52,9 +57,11 @@ E-commerce Website | Home Page
                 </div>
 
                 <div class="collection-list  mt-4 row gx-0 gy-3">
+                    @isset($products)
+                    @foreach ($products as $item)
                     <div class="col-md-6 border-1 border col-lg-4 col-xl-3 p-2 Best">
                         <div class="collection-img position-relative  overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_formal_gray_shirt-removebg-preview.png')}}" class="w-100">
+                            <img src="{{ asset('storage/'.$item->category->image)}}" class="w-100">
                             <span
                                 class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
                         </div>
@@ -67,167 +74,15 @@ E-commerce Website | Home Page
                                 <span class="text-primary"><i class="fas fa-star"></i></span>
                             </div>
                             <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
+                                <p class="text-capitalize mt-3 mb-1">{{ $item->name }}</p>
+                                <span class="fw-bold d-block">$ {{ $item->price }}</span>
+                                <a href="{{ route('product.details',$item->id) }}" class="btn btn-primary border border-1 mt-3">Details
                                     Product</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 Faatured">
-                        <div class="collection-img position-relative  overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_pant_girl-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 border-1 border col-lg-4 col-xl-3 p-2 Faatured">
-                        <div class="collection-img position-relative  overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_polo-shirt-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 Best">
-                        <div class="collection-img position-relative overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_shirt-girl-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 border-1 border col-lg-4 col-xl-3 p-2 New">
-                        <div class="collection-img position-relative overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_t-shirt_men-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 Faatured">
-                        <div class="collection-img position-relative  overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_tunic-shirt_girl-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 border border-1 col-lg-4 col-xl-3 p-2 Best">
-                        <div class="collection-img position-relative  overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_undershirt-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3 p-2 Best">
-                        <div class="collection-img position-relative overflow-hidden">
-                            <img src="{{ asset('frontend/images/c_western-shirt-removebg-preview.png')}}" class="w-100">
-                            <span
-                                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="rating mt-3">
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                                <span class="text-primary"><i class="fas fa-star"></i></span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-capitalize mt-3 mb-1">gray shirt</p>
-                                <span class="fw-bold d-block">$ 50.00</span>
-                                <a href="{{ route('product.details') }}" class="btn btn-primary border border-1 mt-3">Details
-                                    Product</a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+                    @endisset
                 </div>
 
             </div>
@@ -249,16 +104,20 @@ E-commerce Website | Home Page
 
                 <div class="col-md-6 col-lg-4 col-xl-3 p-2">
                     <div class="special-img position-relative overflow-hidden">
+                        <a href="{{ route('product.details',$product->id) }}" >
                         <img src="{{ asset("storage/$product->image")}}" class="w-100">
+                    </a>
+                    <a href="javascript:;" data-id="{{ $product->id }}" class="addFav">
                         <span
                             class="position-absolute d-flex align-items-center justify-content-center text-primary fs-4">
                             <i class="fas fa-heart"></i>
                         </span>
+                    </a>
                     </div>
                     <div class="text-center">
-                        <p class="text-capitalize mt-3 mb-1">{{ $product->name }}</p>
-                        <span class="fw-bold d-block">{{ $product->price }}</span>
-                        <a href="javascript:;" data-url="{{ route('add.to.carts') }}" data-id="{{ $product->id }}" class="btn btn-primary border border-1 mt-3 addCart">Add to Cart</a>
+                        <a href="{{ route('product.details',$product->id) }}" class="btn btn-primary  border-1 mt-3">{{ $product->name }}</a>
+                        <span class="fw-bold d-block">${{ $product->price }}</span>
+                        <a href="javascript:;"  data-id="{{ $product->id }}" class="btn btn-primary border border-1 mt-3 addCart">Add to Cart</a>
                     </div>
                 </div>
                 @endforeach
@@ -513,6 +372,8 @@ E-commerce Website | Home Page
 
 
 
-    <button onclick="topFunction()" title="Go To Up" id="mybtn"><i class="fa-solid fa-arrow-up"></i> Top</button>
+
+@endsection
+@section('scripts')
 
 @endsection

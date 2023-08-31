@@ -18,10 +18,10 @@ class Product extends Model
         return $this->hasMany(ProductGallary::class,'product_id');
     }
     public function tags(){
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class,'product_tag','product_id','tag_id');
     }
     public function favorites(){
         return $this->hasMany(Favorite::class,'product_id','id');
     }
-    
+
 }

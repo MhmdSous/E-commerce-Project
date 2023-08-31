@@ -27,7 +27,9 @@ class FortifyServiceProvider extends ServiceProvider
         if($request->is('admin/*')){
             Config::set('fortify.guard', 'admin');
             Config::set('fortify.prefix', 'admin');
+            Config::set('fortify.home', '/dashboard');
         }
+
 
     }
 

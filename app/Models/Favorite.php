@@ -9,11 +9,11 @@ class Favorite extends Model
 {
     use HasFactory;
     protected $fillable=['user_id','product_id'];
-    public function product(){
+    public function products(){
         return $this->belongsTo(Product::class,'product_id','id');
     }
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');
     }
-    
+
 }

@@ -49,6 +49,7 @@
 
     <!-- Category Modal -->
 @include('backend.category._modal')
+
     <!-- End of Category Modal -->
 @endsection
 @section('scripts')

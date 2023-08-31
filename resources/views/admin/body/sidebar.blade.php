@@ -50,6 +50,20 @@
               <li><a href="{{ route('cart.view') }}"><i class="ti-more"></i>View Cart</a></li>
             </ul>
           </li>
+        <li class="treeview">
+            <a href="#">
+              <i data-feather="message-circle"></i>
+              <span>Setting</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{ route('contactUs') }}"><i class="ti-more"></i>Contact Us</a></li>
+              <li><a href="{{ route('contactUs') }}"><i class="ti-more"></i>Partners</a></li>
+
+            </ul>
+          </li>
 
 
       </ul>
