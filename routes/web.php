@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'home');
 Route::get('/home', [App\Http\Controllers\FrontendController::class, 'index'])->name('home');
 
-
-
 //frontend routes
 Route::get('/product/deatails/{id}', [FrontendController::class, 'show'])->name('product.details');
 Route::get('/add-to-cart', function () {

@@ -2,22 +2,23 @@
 
 namespace App\Notifications;
 
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CartNotification extends Notification
+class OrderCreatedNotification extends Notification
 {
     use Queueable;
+    protected $order;
 
     /**
      * Create a new notification instance.
      */
-    protected $cartItems;
-    public function __construct($cartItems)
+    public function __construct(Order $order)
     {
-        $this->cartItems = $cartItems;
+        $this->order = $order;
     }
 
     /**
@@ -25,9 +26,9 @@ class CartNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via($notifiable): array
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
@@ -37,20 +38,22 @@ class CartNotification extends Notification
     {
         return (new MailMessage)
             ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
+            ->action('Notification Action', url('/home'))
             ->line('Thank you for using our application!');
     }
 
     public function toDatabase($notifiable)
     {
 
+        $order = $this->order;
+
         return [
-            'data' => 'here is  ' . $this->cartItems . ' cart items',
-            'link' => '/cart',
-            'icon' => 'success',
-            'type' => 'Cart Notification',
-            'cartItems' => $this->cartItems,
-            'message' => 'You have ' . $this->cartItems . ' items in your cart',
+            'data' => "A new order (#{$order->order_number}) created by {$order->user->name} from {$order->country}.",
+            'url' => url('/dashboard'),
+            'icon' => 'fa fa-shopping-cart text-success',
+            'type' => 'Order Notification',
+            'order' => $order,
+            'message' => 'You have ' . $order->id . ' order',
         ];
     }
 
@@ -62,12 +65,7 @@ class CartNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'data' => 'here is  ' . $this->cartItems . ' cart items',
-            'link' => '/cart',
-            'icon' => 'success',
-            'type' => 'Cart Notification',
-            'cartItems' => $this->cartItems,
-            'message' => 'You have ' . $this->cartItems . ' items in your cart',
+            //
         ];
     }
 }

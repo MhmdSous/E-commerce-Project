@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderCreated;
+use App\Http\Requests\CheckoutRequest;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Mockery\Exception\InvalidOrderException;
+
 
 class CheckoutController extends Controller
 {
@@ -27,8 +27,10 @@ class CheckoutController extends Controller
             ]
         );
     }
-    public function store(Request $request)
+    public function store(CheckoutRequest $request)
     {
+
+
         $order = Order::create([
             'status'            =>  'pending',
             'grand_total'       =>  Cart::getTotalPrice(),
@@ -49,8 +51,7 @@ class CheckoutController extends Controller
 
             $items = Cart::with('products')->get();
 
-            foreach ($items as $item)
-            {
+            foreach ($items as $item) {
                 // A better way will be to bring the product id with the cart items
                 // you can explore the package documentation to send product id with the cart
                 $product = Product::where('name', $item->products->name)->first();
@@ -62,9 +63,11 @@ class CheckoutController extends Controller
                 ]);
 
                 $order->items()->save($orderItem);
+
+                //  send notification
+                event(new OrderCreated($order));
             }
         }
-
 
 
 

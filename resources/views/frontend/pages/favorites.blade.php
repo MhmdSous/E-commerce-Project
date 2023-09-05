@@ -18,7 +18,13 @@
             </div>
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-10">
-
+                    @if($favItems->count() == 0)
+                    <div class="alert alert-info text-center">
+                        <i class="fas fa-shopping-cart fa-4x mb-3"></i>
+                        <p class="mb-3">Your favorites list is empty.</p>
+                        <a href="{{ route('home') }}" class="btn btn-primary">Home </a>
+                    </div>
+                    @else
                     @foreach ($favItems as $item)
                         <div class="card add-card rounded-3 mb-4">
 
@@ -74,6 +80,7 @@
             </div>
 
         </div>
+        @endif
     </section>
 @endsection
 @section('scripts')
@@ -113,7 +120,7 @@
                 // Loop through each selected favorite item
                 favorite_ids.forEach(function(product_id) {
                     var quantity = $('#form1-' + product_id)
-                .val(); // Get the quantity for each product
+                        .val(); // Get the quantity for each product
                     var price = $('#price-' + product_id).val();
                     // var total = quantity * price;
                     var image = $('#image-' + product_id).val();
@@ -155,7 +162,7 @@
             $(document).on('click', '.delete-fav-item', function() {
                 // delete favorite item
                 var product_id = $(this).data('id')
-                var _url = $('this').data('url')
+                var _url = "{{ route('favorite.remove', ':product_id') }}";
                 $.ajax({
                     url: _url,
                     type: "GET",
@@ -165,7 +172,7 @@
                     },
                     success: function(res) {
                         toastr.success(res.message);
-                        // location.reload();
+                        location.reload();
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr.responseText);

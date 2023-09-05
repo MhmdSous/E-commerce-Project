@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Notifications\OrderCreatedNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification ;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\StripeClient;
@@ -19,13 +22,15 @@ class PaymentsController extends Controller
 
 
 
-    public function create($order_id) {
+    public function create($order_id)
+    {
         $order = Order::find($order_id);
         return view('frontend.payments.paymentForm', [
             'order' => $order,
         ]);
     }
-    public function createStripePaymentIntent(Order $order) {
+    public function createStripePaymentIntent(Order $order)
+    {
 
         $amount = $order->items->sum(function ($item) {
             return $item->price * $item->quantity;
@@ -62,6 +67,8 @@ class PaymentsController extends Controller
         return [
             'clientSecret' => $paymentIntent->client_secret,
         ];
+
+
     }
 
     public function confirm(Request $request, Order $order)
@@ -92,14 +99,24 @@ class PaymentsController extends Controller
 
             event('payment.created', $payment->id);
 
+        //   DELETE CART ITEM  PRODUCT AFTER PAYMENT
+            $cartItems = Cart::where('user_id', Auth::user()->id)->get();
+            foreach ($cartItems as $item) {
+                $item->delete();
+            }
+
             return redirect()->route('home')->with([
                 'success' => 'Payment completed successfully.',
+
             ]);
         }
+
 
         return redirect()->route('orders.payments.create', [
             'order' => $order->id,
             'status' => $paymentIntent->status,
         ]);
+
+
     }
 }

@@ -2,7 +2,91 @@
 @section('title')
     Pay Now
 @endsection
+<style>
+    /* Style for the section containing the payment form */
+.section-content {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+
+}
+
+/* Style for the container holding the payment form */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Style for the payment message alert */
+#payment-message {
+    display: none;
+    background-color: #17a2b8;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Style for the payment form */
+#payment-form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Style for the payment element container */
+#payment-element {
+    margin-bottom: 20px;
+}
+
+/* Style for the submit button */
+#submit {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submit:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the spinner */
+#spinner {
+    display: none;
+    margin-left: 10px;
+}
+
+/* Center the button text vertically */
+#button-text {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Style for the payment form inputs */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+@media only screen and (max-width: 600px) {
+  form {
+    width: 80vw;
+    min-width: initial;
+  }
+}
+</style>
 @section('styles')
+
 @endsection
 @section('content')
     <div class="border rounded border-1 bg-danger text-white p-2 d-flex justify-content-between mb-4 cartin">
@@ -21,7 +105,7 @@
 
             <form action="" method="post" id="payment-form" class="form-control">
                 <div id="payment-element" class="form-row"></div>
-                <button type="submit" id="submit" class="btn">
+                <button type="submit" id="submit" class="btn form-control">
                     <span id="button-text">Pay now</span>
                     <span id="spinner" style="display: none;">Processing...</span>
                 </button>

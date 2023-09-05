@@ -84,7 +84,7 @@
                                           <th style="min-width: 100px"><span class="text-fade">deposit</span></th>
                                           <th style="min-width: 150px"><span class="text-fade">agent</span></th>
                                           <th style="min-width: 130px"><span class="text-fade">status</span></th>
-                                          <th style="min-width: 120px"></th>
+                                          
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -128,10 +128,7 @@
                                           <td>
                                               <span class="badge badge-primary-light badge-lg">Approved</span>
                                           </td>
-                                          <td class="text-right">
-                                              <a href="#" class="waves-effect waves-light btn btn-info btn-circle mx-5"><span class="mdi mdi-bookmark-plus"></span></a>
-                                              <a href="#" class="waves-effect waves-light btn btn-info btn-circle mx-5"><span class="mdi mdi-arrow-right"></span></a>
-                                          </td>
+
                                       </tr>
 
                                  <tr>
@@ -174,10 +171,7 @@
                                           <td>
                                               <span class="badge badge-warning-light badge-lg">In Progress</span>
                                           </td>
-                                          <td class="text-right">
-                                              <a href="#" class="waves-effect waves-light btn btn-info btn-circle mx-5"><span class="mdi mdi-bookmark-plus"></span></a>
-                                              <a href="#" class="waves-effect waves-light btn btn-info btn-circle mx-5"><span class="mdi mdi-arrow-right"></span></a>
-                                          </td>
+
                                       </tr>
                                   </tbody>
                               </table>

@@ -3,6 +3,7 @@
     Add To Cart
 @endsection
 @section('content')
+
     <section class="h-100 ">
         <div class="container h-100 py-5">
             <div class="border rounded border-1 bg-danger text-white p-2 d-flex justify-content-between mb-4 cartin">
@@ -15,7 +16,13 @@
             </div>
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-10">
-
+                     @if($cartItems->count() == 0)
+                     <div class="alert alert-info text-center">
+                        <i class="fas fa-shopping-cart fa-4x mb-3"></i>
+                        <p class="mb-3">Your shopping cart is empty.</p>
+                        <a href="{{ route('home') }}" class="btn btn-primary">Continue Shopping</a>
+                    </div>
+                     @else
                     @foreach ($cartItems as $item)
                         <div class="card add-card rounded-3 mb-4">
 
@@ -57,10 +64,10 @@
                             </div>
                         </div>
                     @endforeach
-
                     <a href="{{ route('checkout') }}" class="btn btn-sub border border-1 btn-primary btn-lg" >Proceed To Checkout</a>
                     <a href="{{ route('cart.history') }}"
-                        class="btn btn-sub border border-1 btn-primary btn-lg CartHistory">Cart History </a>
+                    class="btn btn-sub border border-1 btn-primary btn-lg CartHistory">Cart History </a>
+                    @endif
 
 
 

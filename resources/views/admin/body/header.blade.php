@@ -1,3 +1,15 @@
+@php
+    // get all notifications from database table notifications
+
+    $notifications = auth()
+        ->user()
+        ->notifications()
+        ->orderBy('created_at', 'desc')
+        ->take(10)
+        ->get();
+        $newCount= $notifications->count();
+@endphp
+
 <header class="main-header">
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top pl-30">
@@ -42,8 +54,10 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="waves-effect waves-light rounded dropdown-toggle" data-toggle="dropdown"
                         title="Notifications">
-                       
                         <i class="ti-bell"></i>
+                        {{-- @if ($newCount)
+                            <span class="badge badge-warning navbar-badge">{{ $newCount }}</span>
+                        @endif --}}
                     </a>
                     <ul class="dropdown-menu animated bounceIn">
 
@@ -63,46 +77,19 @@
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu sm-scrol">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-info"></i> Curabitur id eros quis nunc suscipit
-                                        blandit.
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-warning text-warning"></i> Duis malesuada justo eu sapien
-                                        elementum, in semper diam posuere.
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-danger"></i> Donec at nisi sit amet tortor commodo
-                                        porttitor pretium a erat.
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-shopping-cart text-success"></i> In gravida mauris et nisi
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-user text-danger"></i> Praesent eu lacus in libero dictum
-                                        fermentum.
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-user text-primary"></i> Nunc fringilla lorem
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-user text-success"></i> Nullam euismod dolor ut quam interdum,
-                                        at scelerisque ipsum imperdiet.
-                                    </a>
-                                </li>
+                                <span class="dropdown-header">{{ $newCount }} Notifications</span>
+                                <div class="dropdown-divider"></div>
+                                @foreach ($notifications as $notification)
+                                    <li>
+                                        <a href="{{ $notification->data['url'] }}?notification_id={{ $notification->id }}"
+                                            class="dropdown-item text-wrap @if ( $notification->unread() ) text-bold @endif">
+                                            <i class="{{ $notification->data['icon'] }}"></i>
+                                            {{ $notification->data['data'] }}
+                                            <span class="float-right text-muted text-sm">
+                                                {{ $notification->created_at->shortAbsoluteDiffForHumans() }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="footer">
@@ -125,7 +112,8 @@
                             <a class="dropdown-item" href="#"><i class="ti-settings text-muted mr-2"></i>
                                 Settings</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ route('logout') }}"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"><i
+                                    class="ti-lock text-muted mr-2"></i> Logout</a>
                         </li>
                     </ul>
                 </li>

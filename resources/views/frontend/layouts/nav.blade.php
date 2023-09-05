@@ -2,6 +2,7 @@
 @php
     $products = \App\Models\Cart::where('user_id', Auth::id())->get();
     $favorites = \App\Models\Favorite::where('user_id', Auth::id())->get();
+
 @endphp
 
 <div class="container">
@@ -14,11 +15,11 @@
     <div class="order-lg-2" id="cartCount">
         <a href="{{ route('cart.view') }}"  class="btn position-relative" >
             <i class="fa fa-shopping-cart icon-hover"></i>
-            <span class="position-absolute top-0 Start-100 translate-middle badge bg-primary">{{ $products->count() }}</span>
+            <span class="position-absolute top-0 Start-100 translate-middle badge bg-primary">{{   $products->count() > 0 ? $products->count() : ''}}</span>
         </a>
         <a href="{{ route('favorite.view') }}" class="btn position-relative">
             <i class="fa-solid fa-heart icon-hover"></i>
-            <span class="position-absolute top-0 Start-100 translate-middle badge bg-primary">{{ $favorites->count() }}</span>
+            <span class="position-absolute top-0 Start-100 translate-middle badge bg-primary">{{   $favorites->count() > 0 ? $favorites->count() : ''}}</span>
         </a>
     </div>
 

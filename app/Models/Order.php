@@ -16,7 +16,7 @@ class Order extends Model
     static function booted()
     {
         static::creating(function ($order) {
-            $order->order_number = uniqid('OrderNumber-');
+            $order->order_number = uniqid();
             $order->user_id = auth()->user()->id;
         });
     }

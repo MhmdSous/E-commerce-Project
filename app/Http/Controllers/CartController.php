@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\CartNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class CartController extends Controller
 {
@@ -48,6 +49,7 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
+        
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
         if (Auth::check()) {
@@ -68,7 +70,8 @@ class CartController extends Controller
                     return response()->json([
                         'message' =>  $product_check . "Added to cart.",
                     ]);
-                    // $notify= User::find(Auth::guard('admin')->id())->notify(new CartNotification($cartItem));
+
+
 
                 }
             }
