@@ -7,9 +7,7 @@ use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SettingController;
 
-Route::get('/dashboard', function () {
-    return view('admin.index');
-})->name('dashboard');
+Route::get('/dashboard', [SettingController::class,'index'])->name('dashboard');
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
 //for products
@@ -38,6 +36,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     //for settings
     Route::get('/contact', [SettingController::class, 'ContactFormView'])->name('contactUs');
     Route::post('contact_us/delete/{id}', [SettingController::class, 'ContactFormDelete'])->name('contact_us.delete');
+    // for notifications
+    Route::get('notifications/delete/{id}', [SettingController::class, 'clearNotification'])->name('admin.notifications.clear');
 });
 
 

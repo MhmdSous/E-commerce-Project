@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\setting;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
@@ -10,6 +12,15 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SettingController extends Controller
 {
+
+    public function index()
+    {
+        $data = [];
+        $data['orders'] = Order::with('items')->latest()->get();
+        return view('admin.index', $data);
+    }
+
+
     public function ContactForm()
     {
 
@@ -61,10 +72,15 @@ class SettingController extends Controller
         $data = setting::findOrFail($request->id);
         $data->delete();
     }
-public function PartnersView(){
+    public function PartnersView()
+    {
 
-    return view('backend.setting.partners');
+        return view('backend.setting.partners');
+    }
 
-}
-
+    public function clearNotification($id)
+    {
+        auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        return redirect()->back();
+    }
 }

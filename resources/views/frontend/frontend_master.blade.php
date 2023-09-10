@@ -109,6 +109,10 @@
             })
         });
     </script>
+        <script>
+            const userID = "{{ Auth::id() }}";
+        </script>
+
     @yield('scripts')
 
 </body>

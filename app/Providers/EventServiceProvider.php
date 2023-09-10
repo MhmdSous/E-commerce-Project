@@ -28,7 +28,7 @@ class EventServiceProvider extends ServiceProvider
         'order.created' => [
             SendOerderCreatedNotification::class,
         ],
-
+       
 
     ];
 

@@ -84,10 +84,13 @@
                                           <th style="min-width: 100px"><span class="text-fade">deposit</span></th>
                                           <th style="min-width: 150px"><span class="text-fade">agent</span></th>
                                           <th style="min-width: 130px"><span class="text-fade">status</span></th>
-                                          
+
                                       </tr>
                                   </thead>
                                   <tbody>
+                                    @foreach ($orders as $prod )
+
+
                                       <tr>
                                           <td class="pl-0 py-8">
                                               <div class="d-flex align-items-center">
@@ -96,7 +99,7 @@
                                                   </div>
 
                                                   <div>
-                                                      <a href="#" class="text-white font-weight-600 hover-primary mb-1 font-size-16">Vivamus consectetur</a>
+                                                      <a href="#" class="text-white font-weight-600 hover-primary mb-1 font-size-16"> Alise Product</a>
                                                       <span class="text-fade d-block">Pharetra, Nulla , Nec, Aliquet</span>
                                                   </div>
                                               </div>
@@ -106,7 +109,7 @@
                                                   Paid
                                               </span>
                                               <span class="text-white font-weight-600 d-block font-size-16">
-                                                  $45,800k
+                                                 ${{ $prod->grand_total }}
                                               </span>
                                           </td>
                                           <td>
@@ -114,65 +117,24 @@
                                                   Paid
                                               </span>
                                               <span class="text-white font-weight-600 d-block font-size-16">
-                                                  $45k
+                                                ${{ $prod->grand_total }}
                                               </span>
                                           </td>
                                           <td>
                                               <span class="text-fade font-weight-600 d-block font-size-16">
-                                                  Sophia
+                                                {{ $prod->last_name }}
                                               </span>
                                               <span class="text-white font-weight-600 d-block font-size-16">
-                                                  Pharetra
+                                                {{ $prod->first_name }}
                                               </span>
                                           </td>
                                           <td>
-                                              <span class="badge badge-primary-light badge-lg">Approved</span>
+                                              <span class="badge badge-primary-light badge-lg">{{ $prod->status }}</span>
                                           </td>
 
                                       </tr>
 
-                                 <tr>
-                                          <td class="pl-0 py-8">
-                                              <div class="d-flex align-items-center">
-                                                  <div class="flex-shrink-0 mr-20">
-                                                      <div class="bg-img h-50 w-50" style="background-image: url(../images/gallery/creative/img-5.jpg)"></div>
-                                                  </div>
-
-                                                  <div>
-                                                      <a href="#" class="text-white font-weight-600 hover-primary mb-1 font-size-16">Vivamus consectetur</a>
-                                                      <span class="text-fade d-block">Pharetra, Nulla , Nec, Aliquet</span>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <span class="text-fade font-weight-600 d-block font-size-16">
-                                                  Paid
-                                              </span>
-                                              <span class="text-white font-weight-600 d-block font-size-16">
-                                                  $45,800k
-                                              </span>
-                                          </td>
-                                          <td>
-                                              <span class="text-fade font-weight-600 d-block font-size-16">
-                                                  Paid
-                                              </span>
-                                              <span class="text-white font-weight-600 d-block font-size-16">
-                                                  $45k
-                                              </span>
-                                          </td>
-                                          <td>
-                                              <span class="text-fade font-weight-600 d-block font-size-16">
-                                                  Sophia
-                                              </span>
-                                              <span class="text-white font-weight-600 d-block font-size-16">
-                                                  Pharetra
-                                              </span>
-                                          </td>
-                                          <td>
-                                              <span class="badge badge-warning-light badge-lg">In Progress</span>
-                                          </td>
-
-                                      </tr>
+                                      @endforeach
                                   </tbody>
                               </table>
                           </div>

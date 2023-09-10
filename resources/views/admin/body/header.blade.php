@@ -68,12 +68,11 @@
                                         <h4 class="mb-0 mt-0">Notifications</h4>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-danger">Clear All</a>
+                                        <a href="javascript:;" class="text-danger clear-notification" data-id="{{ auth()->user()->id }} ">Clear All</a>
                                     </div>
                                 </div>
                             </div>
                         </li>
-
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu sm-scrol">
@@ -82,7 +81,7 @@
                                 @foreach ($notifications as $notification)
                                     <li>
                                         <a href="{{ $notification->data['url'] }}?notification_id={{ $notification->id }}"
-                                            class="dropdown-item text-wrap @if ( $notification->unread() ) text-bold @endif">
+                                            class="dropdown-item text-wrap @if ( $notification->unread() ) text-fade  @endif">
                                             <i class="{{ $notification->data['icon'] }}"></i>
                                             {{ $notification->data['data'] }}
                                             <span class="float-right text-muted text-sm">
@@ -127,3 +126,18 @@
         </div>
     </nav>
 </header>
+<script>
+    $(document).ready(function() {
+        $('.clear-notification').click(function() {
+            var id = $(this).data('id');
+            let url = '{{ url("notifications/delete") }}'+ '/' + id ;
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function(response) {
+                    $('.notifications-menu').html(response.html);
+                }
+            })
+        })
+    })
+</script>

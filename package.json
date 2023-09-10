@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "prod": "npm run production",
+        "production": "vite --production"
+
     },
     "devDependencies": {
         "@alpinejs/focus": "^3.10.5",
@@ -18,6 +21,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "laravel-echo": "^1.15.3",
+        "pusher-js": "^8.3.0",
         "select2": "^4.1.0-rc.0",
         "sweetalert2": "^11.7.27"
     }

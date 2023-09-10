@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.11",
         "maatwebsite/excel": "^3.1",
+        "pusher/pusher-php-server": "^7.2",
         "stripe/stripe-php": "^7.100",
         "yajra/laravel-datatables-oracle": "^10.7"
     },

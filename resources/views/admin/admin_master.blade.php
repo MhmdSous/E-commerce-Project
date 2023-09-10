@@ -69,7 +69,9 @@
     <script src="{{ asset('backend/js/pages/dashboard.js') }}"></script>
 
     <script src="{{ asset('backend/js/template.js') }}"></script>
-
+    <script>
+        const userID = "{{ Auth::id() }}";
+    </script>
 
 
     @yield('scripts')
